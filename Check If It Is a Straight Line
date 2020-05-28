@@ -1,0 +1,48 @@
+Problem statement: https://leetcode.com/explore/challenge/card/may-leetcoding-challenge/535/week-2-may-8th-may-14th/3323/
+
+You are given an array coordinates, coordinates[i] = [x, y], where [x, y] represents the coordinate of a point. Check if these points make a straight line in the XY plane.
+
+Example 1:
+
+Input: coordinates = [[1,2],[2,3],[3,4],[4,5],[5,6],[6,7]]
+Output: true
+
+Example 2:
+
+Input: coordinates = [[1,1],[2,2],[3,4],[4,5],[5,6],[7,7]]
+Output: false
+
+Constraints:
+
+    2 <= coordinates.length <= 1000
+    coordinates[i].length == 2
+    -10^4 <= coordinates[i][0], coordinates[i][1] <= 10^4
+    coordinates contains no duplicate point.
+
+
+SOLUTION:
+
+class Solution {
+public:
+    long long int square(long long int x) {
+        return x * x;
+    }
+    bool checkStraightLine(vector<vector<int>>& coordinates) {
+        
+        long long int x1 = coordinates[0][0], y1 = coordinates[0][1];
+        long long int x2 = coordinates[1][0], y2 = coordinates[1][1];
+        long long int AB = (x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1);
+        
+        for (int i = 2; i < coordinates.size(); i ++) {
+            
+            long long int x3 = coordinates[i][0], y3 = coordinates[i][1];
+            //function<long long int(long long int)>square = [&](long long int x) -> int { return x * x; };
+            long long int BC = square(x3 - x2) + square(y3 - y2);
+            long long int AC = square(x3 - x1) + square(y3 - y1);
+            
+            if(square(AB + BC - AC) != 4 * AB * BC)
+                return false;
+        }
+        return true;
+    }
+};
